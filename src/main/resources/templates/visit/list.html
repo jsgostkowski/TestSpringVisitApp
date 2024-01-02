@@ -1,10 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Visits</title>
+    <title>Visit List</title>
 </head>
 <body>
-DUPA
+
+<table>
+    <thead>
+    <tr>
+        <th>Doctor First Name</th>
+        <th>Doctor Last Name</th>
+        <th>Patient First Name</th>
+        <th>Patient Last Name</th>
+        <th>Visit Type</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="visit : ${visits}">
+        <td th:text="${visit.doctorFirstName}"></td>
+        <td th:text="${visit.doctorLastName}"></td>
+        <td th:text="${visit.patientFirstName}"></td>
+        <td th:text="${visit.patientLastName}"></td>
+        <td th:text="${visit.visitType}"></td>
+    </tr>
+    </tbody>
+</table>
+
 </body>
 </html>
