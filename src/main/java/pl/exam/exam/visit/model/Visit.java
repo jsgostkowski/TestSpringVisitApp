@@ -6,6 +6,8 @@ import pl.exam.exam.common.VisitType;
 import pl.exam.exam.doctor.model.Doctor;
 import pl.exam.exam.patient.model.Patient;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -30,4 +32,8 @@ public class Visit {
 
     @Enumerated(EnumType.STRING)
     private VisitType visitType;
+
+    private LocalDate visitDate;
+
+    private int durationInMinutes;
 }
