@@ -23,11 +23,11 @@ public class Visit {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "id_doctor")
     private Doctor doctor;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "id_patient")
     private Patient patient;
 
     @Enumerated(EnumType.STRING)
