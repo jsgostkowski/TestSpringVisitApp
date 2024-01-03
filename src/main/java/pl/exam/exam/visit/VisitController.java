@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.exam.exam.visit.model.Visit;
-import pl.exam.exam.visit.model.dao.VisitDAO;
+import pl.exam.exam.visit.model.dao.VisitDto;
 
 import java.util.List;
 
@@ -19,10 +19,8 @@ public class VisitController {
 
     @GetMapping
     public String getAll(Model model) {
-        List<VisitDAO> visits = visitService.findAllVisitsWithDoctorAndPatientData();
-        model.addAttribute("visits", visits);
+        model.addAttribute("visits", visitService.getAll());
         return "visit/list";
     }
-
 
 }

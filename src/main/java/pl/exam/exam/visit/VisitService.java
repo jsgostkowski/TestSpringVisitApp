@@ -1,10 +1,8 @@
 package pl.exam.exam.visit;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.exam.exam.visit.model.Visit;
-import pl.exam.exam.visit.model.dao.VisitDAO;
+import pl.exam.exam.visit.model.dao.VisitDto;
 
 import java.util.List;
 
@@ -13,11 +11,10 @@ import java.util.List;
 public class VisitService {
 
     private final VisitRepository visitRepository;
-
-    public List<VisitDAO> findAllVisitsWithDoctorAndPatientData() {
-        return visitRepository.findAllVisitsWithDoctorAndPatientData();
-    }
-    private List<Visit> findAll(){
-        return visitRepository.findAll();
+    
+    public List<VisitDto> getAll() {
+        return visitRepository.findAll().stream()
+                .map(VisitDto::fromEntitty)
+                .toList();
     }
 }

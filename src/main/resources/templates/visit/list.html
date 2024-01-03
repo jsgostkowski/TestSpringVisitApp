@@ -14,15 +14,17 @@
         <th>Patient First Name</th>
         <th>Patient Last Name</th>
         <th>Visit Type</th>
+        <th>Visit Date</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="visit : ${visits}">
-        <td th:text="${visit.doctorFirstName}"></td>
-        <td th:text="${visit.doctorLastName}"></td>
-        <td th:text="${visit.patientFirstName}"></td>
-        <td th:text="${visit.patientLastName}"></td>
+        <td th:text="${visit.doctor.firstName}"></td>
+        <td th:text="${visit.doctor.lastName}"></td>
+        <td th:text="${visit.patient.firstName}"></td>
+        <td th:text="${visit.patient.lastName}"></td>
         <td th:text="${visit.visitType}"></td>
+        <td th:text="${visit.date}"></td>
     </tr>
     </tbody>
 </table>
