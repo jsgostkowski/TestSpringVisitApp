@@ -15,6 +15,7 @@
         <th>Patient Last Name</th>
         <th>Visit Type</th>
         <th>Visit Date</th>
+        <th>Duration in minutes</th>
     </tr>
     </thead>
     <tbody>
@@ -25,6 +26,7 @@
         <td th:text="${visit.patient.lastName}"></td>
         <td th:text="${visit.visitType}"></td>
         <td th:text="${visit.date}"></td>
+        <td th:text="${visit.durationInMinutes}"></td>
     </tr>
     </tbody>
 </table>

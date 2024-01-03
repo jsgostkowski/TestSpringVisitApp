@@ -1,6 +1,5 @@
-package pl.exam.exam.visit.model.dao;
+package pl.exam.exam.visit.model.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import pl.exam.exam.common.VisitType;
