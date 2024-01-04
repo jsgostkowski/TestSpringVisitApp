@@ -6,13 +6,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import pl.exam.exam.common.VisitType;
 import pl.exam.exam.doctor.DoctorService;
 import pl.exam.exam.patient.PatientService;
 import pl.exam.exam.visit.model.Visit;
+import pl.exam.exam.visit.model.dto.VisitDto;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -26,8 +28,10 @@ public class VisitController {
     @GetMapping
     public String getAll(Model model) {
         model.addAttribute("visits", visitService.getAll());
+        model.addAttribute("visitTypes", VisitType.values()); // Dodaj dostępne typy wizyt
         return "visit/list";
     }
+
 
     @GetMapping("/create")
     public String getCreateForm(Model model) {
@@ -44,7 +48,22 @@ public class VisitController {
         return "redirect:/visits";
     }
 
+    @GetMapping("/search")
+    public String searchByVisitType(Model model) {
+        model.addAttribute("visitTypes", VisitType.values());
+        model.addAttribute("visits", visitService.getAll());
+        return "visit/search";
+    }
+
+    @PostMapping("/search")
+    public String processSearchByVisitType(@RequestParam(name = "visitType") VisitType visitType, Model model) {
+        List<VisitDto> searchResults = visitService.searchByVisitType(visitType);
+        model.addAttribute("visitTypes", VisitType.values());
+        model.addAttribute("visits", searchResults);
+        return "visit/search";
+    }
+
     // TODO: 03/01/2024: button z listy wizyst do strony dodawania(formularza)
-    // TODO: 03/01/2024 skrypty do sortowania + profile da bazy danych. 
+    // TODO: 03/01/2024 skrypty do sortowania + profile da bazy danych.
 
 }

@@ -2,6 +2,7 @@ package pl.exam.exam.visit;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.exam.exam.common.VisitType;
 import pl.exam.exam.doctor.model.Doctor;
 import pl.exam.exam.visit.model.Visit;
 import pl.exam.exam.visit.model.dto.VisitDto;
@@ -25,4 +26,9 @@ public class VisitService {
         visitRepository.save(visit);
     }
 
+    public List<VisitDto> searchByVisitType(VisitType visitType) {
+        return visitRepository.findByVisitType(visitType).stream()
+                .map(VisitDto::fromEntitty)
+                .toList();
+    }
 }
