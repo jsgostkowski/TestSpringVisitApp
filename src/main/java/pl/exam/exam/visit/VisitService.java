@@ -1,6 +1,7 @@
 package pl.exam.exam.visit;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pl.exam.exam.common.VisitType;
 import pl.exam.exam.doctor.model.Doctor;
@@ -16,10 +17,16 @@ public class VisitService {
 
     private final VisitRepository visitRepository;
 
-    public List<VisitDto> getAll() {
-        return visitRepository.findAll().stream()
-                .map(VisitDto::fromEntitty)
-                .toList();
+    public List<VisitDto> getAll(VisitType visitType) {
+        if (visitType == null) {
+            return visitRepository.findAll().stream()
+                    .map(VisitDto::fromEntitty)
+                    .toList();
+        } else {
+            return visitRepository.findByVisitType(visitType).stream()
+                    .map(VisitDto::fromEntitty)
+                    .toList();
+        }
     }
 
     public void create(Visit visit) {

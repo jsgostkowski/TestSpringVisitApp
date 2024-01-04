@@ -26,11 +26,13 @@ public class VisitController {
     private final PatientService patientService;
 
     @GetMapping
-    public String getAll(Model model) {
-        model.addAttribute("visits", visitService.getAll());
-        model.addAttribute("visitTypes", VisitType.values()); // Dodaj dostępne typy wizyt
+    public String getAll(@RequestParam(name = "visitType", required = false) VisitType visitType, Model model) {
+        List<VisitDto> visits = visitService.getAll(visitType);
+        model.addAttribute("visits", visits);
+        model.addAttribute("visitTypes", VisitType.values());
         return "visit/list";
     }
+
 
 
     @GetMapping("/create")
@@ -48,20 +50,20 @@ public class VisitController {
         return "redirect:/visits";
     }
 
-    @GetMapping("/search")
-    public String searchByVisitType(Model model) {
-        model.addAttribute("visitTypes", VisitType.values());
-        model.addAttribute("visits", visitService.getAll());
-        return "visit/search";
-    }
-
-    @PostMapping("/search")
-    public String processSearchByVisitType(@RequestParam(name = "visitType") VisitType visitType, Model model) {
-        List<VisitDto> searchResults = visitService.searchByVisitType(visitType);
-        model.addAttribute("visitTypes", VisitType.values());
-        model.addAttribute("visits", searchResults);
-        return "visit/search";
-    }
+//    @GetMapping("/search")
+//    public String searchByVisitType(Model model) {
+//        model.addAttribute("visitTypes", VisitType.values());
+//        model.addAttribute("visits", visitService.getAll());
+//        return "visit/search";
+//    }
+//
+//    @PostMapping("/search")
+//    public String processSearchByVisitType(@RequestParam(name = "visitType") VisitType visitType, Model model) {
+//        List<VisitDto> searchResults = visitService.searchByVisitType(visitType);
+//        model.addAttribute("visitTypes", VisitType.values());
+//        model.addAttribute("visits", searchResults);
+//        return "visit/search";
+//    }
 
     // TODO: 03/01/2024: button z listy wizyst do strony dodawania(formularza)
     // TODO: 03/01/2024 skrypty do sortowania + profile da bazy danych.
