@@ -8,6 +8,7 @@ import pl.exam.exam.doctor.model.Doctor;
 import pl.exam.exam.visit.model.Visit;
 import pl.exam.exam.visit.model.dto.VisitDto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -28,14 +29,16 @@ public class VisitService {
                     .toList();
         }
     }
+    public List<VisitDto> searchByCriteria(String doctorFirstName, String patientFirstName, LocalDate startDate, LocalDate endDate) {
+        return visitRepository.findByDoctorFirstNameAndPatientFirstNameAndVisitDateBetween(
+                        doctorFirstName, patientFirstName, startDate, endDate)
+                .stream()
+                .map(VisitDto::fromEntitty)
+                .toList();
+    }
 
     public void create(Visit visit) {
         visitRepository.save(visit);
     }
 
-    public List<VisitDto> searchByVisitType(VisitType visitType) {
-        return visitRepository.findByVisitType(visitType).stream()
-                .map(VisitDto::fromEntitty)
-                .toList();
-    }
 }
