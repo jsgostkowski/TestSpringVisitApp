@@ -19,16 +19,24 @@ public class VisitService {
     private final VisitRepository visitRepository;
 
     public List<VisitDto> getAll(VisitType visitType) {
-        if (visitType == null) {
-            return visitRepository.findAll().stream()
-                    .map(VisitDto::fromEntitty)
-                    .toList();
-        } else {
-            return visitRepository.findByVisitType(visitType).stream()
-                    .map(VisitDto::fromEntitty)
-                    .toList();
-        }
+//        if (visitType == null) {
+//            return visitRepository.findAll().stream()
+//                    .map(VisitDto::fromEntitty)
+//                    .toList();
+//        } else {
+        return visitRepository.findByVisitType(visitType).stream()
+                .map(VisitDto::fromEntitty)
+                .toList();
     }
+
+    public List<VisitDto> findByVisitDate(LocalDate date) {
+        return visitRepository.findByVisitDate(date).stream().map(VisitDto::fromEntitty).toList();
+    }
+
+    public List<VisitDto> getFCKNALL() {
+        return visitRepository.findAll().stream().map(VisitDto::fromEntitty).toList();
+    }
+
     public List<VisitDto> searchByCriteria(String doctorFirstName, String patientFirstName, LocalDate startDate, LocalDate endDate) {
         return visitRepository.findByDoctorFirstNameAndPatientFirstNameAndVisitDateBetween(
                         doctorFirstName, patientFirstName, startDate, endDate)
@@ -36,6 +44,7 @@ public class VisitService {
                 .map(VisitDto::fromEntitty)
                 .toList();
     }
+
 
     public void create(Visit visit) {
         visitRepository.save(visit);

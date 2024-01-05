@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.exam.exam.common.VisitType;
 import pl.exam.exam.doctor.DoctorService;
+import pl.exam.exam.doctor.model.Doctor;
 import pl.exam.exam.patient.PatientService;
 import pl.exam.exam.patient.model.Patient;
 import pl.exam.exam.visit.model.Visit;
@@ -46,12 +47,15 @@ public class VisitController {
 
         List<VisitDto> visits;
 
+
         if (visitType != null) {
             visits = visitService.getAll(visitType);
+        } else if (startDate != null) {
+            visits = visitService.findByVisitDate(startDate);
         } else if (doctorFirstName != null || patientFirstName != null || startDate != null || endDate != null) {
             visits = visitService.searchByCriteria(doctorFirstName, patientFirstName, startDate, endDate);
         } else {
-            visits = visitService.getAll(null);
+            visits = visitService.getFCKNALL();
         }
 
         model.addAttribute("visits", visits);
