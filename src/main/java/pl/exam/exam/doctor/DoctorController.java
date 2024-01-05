@@ -13,11 +13,4 @@ import pl.exam.exam.doctor.model.Doctor;
 @RequestMapping("/doctors")
 public class DoctorController {
 
-    private final DoctorService doctorService;
-
-    @GetMapping
-    public String getAll(Model model) {
-        model.addAttribute("doctors", doctorService.findAll());
-        return "doctor/list";
-    }
 }

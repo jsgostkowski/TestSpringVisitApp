@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import pl.exam.exam.common.VisitSortBy;
 import pl.exam.exam.common.VisitType;
 import pl.exam.exam.doctor.DoctorService;
 import pl.exam.exam.doctor.model.Doctor;
@@ -28,38 +29,22 @@ public class VisitController {
     private final DoctorService doctorService;
     private final PatientService patientService;
 
-    //    @GetMapping
-//    public String getAll(@RequestParam(name = "visitType", required = false) VisitType visitType,
-//
-//                         Model model) {
-//        List<VisitDto> visits = visitService.getAll(visitType);
-//        model.addAttribute("visits", visits);
-//        model.addAttribute("visitTypes", VisitType.values());
-//        return "visit/list";
-//    }
     @GetMapping
     public String getAll(@RequestParam(name = "visitType", required = false) VisitType visitType,
-                         @RequestParam(name = "doctorFirstName", required = false) String doctorFirstName,
+                         @RequestParam(name = "doctorLastName", required = false) String doctorLastName,
                          @RequestParam(name = "patientFirstName", required = false) String patientFirstName,
+                         @RequestParam(name = "patientLastName", required = false) String patientLastName,
                          @RequestParam(name = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate startDate,
                          @RequestParam(name = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate endDate,
+                         @RequestParam(name = "sortBy", required = false) VisitSortBy sortBy,
                          Model model) {
 
-        List<VisitDto> visits;
-
-
-        if (visitType != null) {
-            visits = visitService.getAll(visitType);
-        } else if (startDate != null) {
-            visits = visitService.findByVisitDate(startDate);
-        } else if (doctorFirstName != null || patientFirstName != null || startDate != null || endDate != null) {
-            visits = visitService.searchByCriteria(doctorFirstName, patientFirstName, startDate, endDate);
-        } else {
-            visits = visitService.getFCKNALL();
-        }
+        List<VisitDto> visits = visitService.search(visitType,
+                patientLastName, doctorLastName, startDate, endDate, sortBy);
 
         model.addAttribute("visits", visits);
         model.addAttribute("visitTypes", VisitType.values());
+        model.addAttribute("visitsSortBy", VisitSortBy.values());
         return "visit/list";
     }
 
@@ -78,9 +63,4 @@ public class VisitController {
         visitService.create(visit);
         return "redirect:/visits";
     }
-
-
-    // TODO: 03/01/2024: button z listy wizyst do strony dodawania(formularza)
-    // TODO: 03/01/2024 skrypty do sortowania + profile da bazy danych.
-
 }

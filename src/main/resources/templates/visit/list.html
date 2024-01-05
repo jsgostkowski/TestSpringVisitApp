@@ -5,25 +5,30 @@
     <title>Visit List</title>
 </head>
 <body>
+
 <form action="/visits" method="get">
     <label for="visitType">Search by Visit Type:</label>
     <select name="visitType" id="visitType">
+        <option value="" disabled selected>Select Visit Type</option>
         <option th:each="type : ${visitTypes}" th:value="${type}" th:text="${type}"></option>
     </select>
-    <button type="submit">Search</button>
-</form>
-<form action="/visits" method="get">
-    <label for="doctorFirstName">Doctor First Name:</label>
-    <input type="text" name="doctorFirstName" id="doctorFirstName">
 
-    <label for="patientFirstName">Patient First Name:</label>
-    <input type="text" name="patientFirstName" id="patientFirstName">
+    <label for="doctorLastName">Doctor Last Name:</label>
+    <input type="text" name="doctorLastName" id="doctorLastName">
+
+    <label for="patientLastName">Patient Last Name:</label>
+    <input type="text" name="patientLastName" id="patientLastName">
 
     <label for="startDate">Start Date:</label>
-    <input type="datetime-local" name="startDate" id="startDate">
+    <input type="date" name="startDate" id="startDate">
 
     <label for="endDate">End Date:</label>
-    <input type="datetime-local" name="endDate" id="endDate">
+    <input type="date" name="endDate" id="endDate">
+
+    <select name="sortBy" id="sortBy">
+        <option value="" disabled selected>Sort By</option>
+        <option th:each="type : ${visitsSortBy}" th:value="${type}" th:text="${type}"></option>
+    </select>
 
     <button type="submit">Search</button>
 </form>
@@ -53,6 +58,7 @@
     </tr>
     </tbody>
 </table>
+<button onclick="location.href='visits/create'">Create Visit</button>
 
 </body>
 </html>
