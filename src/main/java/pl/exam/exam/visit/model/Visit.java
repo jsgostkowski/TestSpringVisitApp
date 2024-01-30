@@ -23,14 +23,16 @@ public class Visit {
     private int id;
 
     @ManyToOne
+    @JoinColumn(name = "doctor_id")
     private Doctor doctor;
 
     @ManyToOne
+    @JoinColumn(name = "patient_id")
     private Patient patient;
 
     @Enumerated(EnumType.STRING)
     private VisitType visitType;
-
+    // TODO: 30/01/2024 zamienic LocalDate na LocalDateTime - w insertSQL rowniez 
     private LocalDate visitDate;
 
     private int durationInMinutes;
