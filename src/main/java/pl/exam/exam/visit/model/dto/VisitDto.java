@@ -18,7 +18,7 @@ public class VisitDto {
     private int durationInMinutes;
     private Doctor doctor;
     private Patient patient;
-    private VisitType visitType;
+    private String visitType;
 
     public static VisitDto fromEntitty(Visit visit) {
         return VisitDto.builder()
