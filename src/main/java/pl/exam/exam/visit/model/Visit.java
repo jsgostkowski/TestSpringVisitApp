@@ -30,8 +30,7 @@ public class Visit {
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
-    @Enumerated(EnumType.STRING)
-    private VisitType visitType;
+    private String visitType;
     // TODO: 30/01/2024 zamienic LocalDate na LocalDateTime - w insertSQL rowniez 
     private LocalDate visitDate;
 
