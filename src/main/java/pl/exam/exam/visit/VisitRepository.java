@@ -1,5 +1,6 @@
 package pl.exam.exam.visit;
 
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
@@ -15,17 +16,6 @@ import java.util.List;
 
 @Repository
 public interface VisitRepository extends JpaRepository<Visit, Integer>, JpaSpecificationExecutor<Visit> {
-    List<Visit> findByVisitType(VisitType visitType);
-
-    List<Visit> findByVisitDateBetween(LocalDate startDate, LocalDate endDate);
-
-    List<Visit> findVisitByDoctorLastNameIgnoreCaseAndPatientLastNameIgnoreCase(String doctorFirstName,String patientLastName);
-
-    List<Visit> findVisitByDoctorLastNameIgnoreCase(String doctorLastName);
-
-    List<Visit> findVisitByPatientLastNameIgnoreCase(String patientLastName);
-
-    List<Visit> findByDoctorLastNameIgnoreCaseAndPatientLastNameIgnoreCaseAndVisitDateBetween(
-            String doctorLastName, String patientLastName, LocalDate startDate, LocalDate endDate);
+    List<Visit> findAll(Specification<Visit> spec);
 
 }

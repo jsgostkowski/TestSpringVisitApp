@@ -7,11 +7,8 @@
 <body>
 
 <form action="/visits" method="get">
-    <label for="visitType">Search by Visit Type:</label>
-    <select name="visitType" id="visitType">
-        <option value="" disabled selected>Select Visit Type</option>
-        <option th:each="type : ${visitTypes}" th:value="${type}" th:text="${type}"></option>
-    </select>
+    <label for="visitType">Visit Type:</label>
+    <input type="text" name="visitType" id="visitType">
 
     <label for="doctorLastName">Doctor Last Name:</label>
     <input type="text" name="doctorLastName" id="doctorLastName">
@@ -19,11 +16,8 @@
     <label for="patientLastName">Patient Last Name:</label>
     <input type="text" name="patientLastName" id="patientLastName">
 
-    <label for="startDate">Start Date:</label>
-    <input type="date" name="startDate" id="startDate">
-
-    <label for="endDate">End Date:</label>
-    <input type="date" name="endDate" id="endDate">
+    <label for="visitDate">Visit Date:</label>
+    <input type="date" name="visitDate" id="visitDate">
 
     <select name="sortBy" id="sortBy">
         <option value="" disabled selected>Sort By</option>
