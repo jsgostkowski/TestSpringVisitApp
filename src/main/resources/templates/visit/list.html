@@ -17,7 +17,10 @@
     <input type="text" name="patientLastName" id="patientLastName">
 
     <label for="visitDate">Visit Date:</label>
-    <input type="date" name="visitDate" id="visitDate">
+    <input type="datetime-local" name="visitDate" id="visitDate">
+
+    <label for="durationTime">Duration Time:</label>
+    <input type="number" name="durationTime" id="durationTime">
 
     <select name="sortBy" id="sortBy">
         <option value="" disabled selected>Sort By</option>
@@ -47,7 +50,7 @@
         <td th:text="${visit.patient.firstName}"></td>
         <td th:text="${visit.patient.lastName}"></td>
         <td th:text="${visit.visitType}"></td>
-        <td th:text="${visit.date}"></td>
+        <td th:text="${visit.formattedVisitDate}"></td>
         <td th:text="${visit.durationInMinutes}"></td>
     </tr>
     </tbody>
