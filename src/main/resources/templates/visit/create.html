@@ -1,47 +1,49 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Visit List</title>
+    <meta charset="UTF-8">
+    <title>Visit List</title>
 </head>
 <body>
-  <form method="post" action="/visits/create" th:object="${visit}">
+<form method="post" action="/visits/create">
     <div>
-      <label>Doctor</label>
-      <select id="doctorSelectId" name="doctor" required>
-        <option value="" disabled selected>Select doctor</option>
-        <option th:each="doctor : ${doctors}" th:value="${doctor.id}" th:text="${doctor.firstName} + ' ' + ${doctor.lastName}"></option>
-      </select>
+        <label>Doctor</label>
+        <select id="doctorSelectId" name="doctor" required>
+            <option value="" disabled selected>Select doctor</option>
+            <option th:each="doctor : ${doctors}" th:value="${doctor.id}"
+                    th:text="${doctor.firstName} + ' ' + ${doctor.lastName}"></option>
+        </select>
     </div>
 
     <div>
-      <label>Patient</label>
-      <select id="patientSelectId" name="patient" required>
-        <option value="" disabled selected>Select patient</option>
-        <option th:each="patient : ${patients}" th:value="${patient.id}" th:text="${patient.firstName} + ' ' + ${patient.lastName}"></option>
-      </select>
+        <label>Patient</label>
+        <select id="patientSelectId" name="patient" required>
+            <option value="" disabled selected>Select patient</option>
+            <option th:each="patient : ${patients}" th:value="${patient.id}"
+                    th:text="${patient.firstName} + ' ' + ${patient.lastName}"></option>
+        </select>
     </div>
 
     <div>
-      <label>Visit type</label>
-      <select id="visitTypeId" name="visitType" required>
-        <option value="" disabled selected>Select visit type</option>
-        <option th:each="visitType : ${visitTypes}" th:text="${visitType}" th:value="${visitType}"/>
-      </select>
+        <label>Visit type</label>
+        <select id="visitTypeId" name="visitType" required>
+            <option value="" disabled selected>Select visit type</option>
+            <option th:each="visitType : ${visitTypes}" th:text="${visitType}" th:value="${visitType}"/>
+        </select>
     </div>
 
     <div>
-      <label>Visit date</label>
-      <input type="datetime-local" name="visitDate" th:value="${visit != null ? visit.date : ''}" th:min="${today}" required/>
+        <label>Visit date</label>
+        <input type="datetime-local" name="term" th:value="${visit != null ? visit.visitDate : ''}" th:min="${today}" required/>
     </div>
 
 
     <div>
-      <label>Duration in minutes</label>
-      <input type="number" name="durationInMinutes" th:min="0" th:max="90" required>
+        <label>Duration in minutes</label>
+        <input type="number" name="durationInMinutes" th:min="0" th:max="90" required>
     </div>
 
     <button type="submit">Submit</button>
-  </form>
+</form>
 </body>
 </html>

@@ -17,6 +17,8 @@ import pl.exam.exam.visit.model.VisitCriteria;
 import pl.exam.exam.visit.model.dto.VisitDto;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -34,7 +36,7 @@ public class VisitController {
 
         List<VisitDto> visits = visitService.search(visitCriteria.getVisitType(),
                 visitCriteria.getPatientLastName(),
-                visitCriteria.getDoctorLastName(), visitCriteria.getVisitDate(), visitCriteria.getDurationTime());
+                visitCriteria.getDoctorLastName(), visitCriteria.getVisitDate());
 
         model.addAttribute("visits", visits);
         model.addAttribute("visitTypes", VisitType.values());
@@ -48,13 +50,14 @@ public class VisitController {
         model.addAttribute("doctors", doctorService.findAll());
         model.addAttribute("patients", patientService.findAll());
         model.addAttribute("visitTypes", VisitType.values());
-        model.addAttribute("today", LocalDate.now());
+        model.addAttribute("visitDate", LocalDateTime.now().format(DateTimeFormatter.ISO_DATE));
         return "visit/create";
     }
 
     @PostMapping("/create")
     public String create(VisitDto visit, Model model) {
         model.addAttribute("visit", visit);
+        //   model.addAttribute("visitDate", LocalDateTime.now().format(DateTimeFormatter.ISO_DATE));
         visitService.create(visit);
         return "redirect:/visits";
     }

@@ -74,7 +74,6 @@ public class VisitService {
         visit.setDoctor(doctor);
         visit.setPatient(patient);
         visit.setDurationInMinutes(visitDto.getDurationInMinutes());
-
         visitRepository.save(visit);
     }
 
