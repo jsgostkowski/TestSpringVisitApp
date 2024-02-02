@@ -13,7 +13,6 @@ public class VisitCriteria {
     private String visitType;
     private String patientLastName;
     private LocalDateTime visitDate;
-    private int durationTime;
 
 
 }

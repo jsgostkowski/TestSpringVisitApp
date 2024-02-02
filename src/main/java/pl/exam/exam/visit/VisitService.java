@@ -30,8 +30,7 @@ public class VisitService {
     private final DoctorRepository doctorRepository;
     private final PatientRepository patientRepository;
 
-
-    public static Specification<Visit> filterByParams(String visitType, String doctorLastName, String patientLastName, LocalDateTime visitDate, int durationTime) {
+    public static Specification<Visit> filterByParams(String visitType, String doctorLastName, String patientLastName, LocalDateTime visitDate) {
         return new Specification<Visit>() {
             @Override
             public Predicate toPredicate(Root<Visit> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
@@ -52,10 +51,6 @@ public class VisitService {
                 }
                 if (visitDate != null) {
                     Predicate p = criteriaBuilder.equal(root.get("visitDate"), visitDate);
-                    predicats.add(p);
-                }
-                if (durationTime > 0) {
-                    Predicate p = criteriaBuilder.equal(root.get("durationInMinutes"), durationTime);
                     predicats.add(p);
                 }
 
@@ -79,14 +74,12 @@ public class VisitService {
         visit.setDoctor(doctor);
         visit.setPatient(patient);
         visit.setDurationInMinutes(visitDto.getDurationInMinutes());
-
         visitRepository.save(visit);
-//        visitRepository.save(visit);
     }
 
 
-    public List<VisitDto> search(String visitType, String patientLastName, String doctorLastName, LocalDateTime visitDate, int durationTime) {
-        var result = visitRepository.findAll(filterByParams(visitType, doctorLastName, patientLastName, visitDate, durationTime));
+    public List<VisitDto> search(String visitType, String patientLastName, String doctorLastName, LocalDateTime visitDate) {
+        var result = visitRepository.findAll(filterByParams(visitType, doctorLastName, patientLastName, visitDate));
         return result.stream().map(VisitDto::fromEntitty).toList();
     }
 }

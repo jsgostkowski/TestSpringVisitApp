@@ -2,12 +2,9 @@ package pl.exam.exam.visit.model.dto;
 
 import lombok.Builder;
 import lombok.Getter;
-import pl.exam.exam.common.VisitType;
 import pl.exam.exam.doctor.model.Doctor;
 import pl.exam.exam.patient.model.Patient;
 import pl.exam.exam.visit.model.Visit;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -15,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 @Builder
 public class VisitDto {
 
-    private int id;
+    private Integer id;
     private LocalDateTime date;
     private String formattedVisitDate;
     private int durationInMinutes;
@@ -29,7 +26,7 @@ public class VisitDto {
         return VisitDto.builder()
                 .id(visit.getId())
                 .date(visit.getVisitDate())
-                .formattedVisitDate(visit.getVisitDate().format(dateTimeFormatter))
+                .formattedVisitDate(visit.getVisitDate() != null ? visit.getVisitDate().format(dateTimeFormatter) : null)
                 .durationInMinutes(visit.getDurationInMinutes())
                 .patient(visit.getPatient())
                 .doctor(visit.getDoctor())
