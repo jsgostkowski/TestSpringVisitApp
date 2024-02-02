@@ -18,6 +18,7 @@ import pl.exam.exam.visit.model.Visit;
 import pl.exam.exam.visit.model.dto.VisitDto;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,22 +30,7 @@ public class VisitService {
     private final DoctorRepository doctorRepository;
     private final PatientRepository patientRepository;
 
-    private static Specification<Visit> getSpecification(String visitType, String doctorLastName, String patientLastName,
-                                                         String patientFirstName) {
-        return (((root, query, criteriaBuilder) -> {
-            List<Predicate> predicates = new ArrayList<>();
-
-            if (visitType != null) {
-                predicates.add(criteriaBuilder.equal(root.get("visitType"), visitType));
-            }
-            if (doctorLastName != null) {
-                predicates.add(criteriaBuilder.equal(root.get("doctorLastName"), doctorLastName));
-            }
-            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
-        }));
-    }
-
-    public static Specification<Visit> filterByParams(String visitType, String doctorLastName, String patientLastName, LocalDate visitDate) {
+    public static Specification<Visit> filterByParams(String visitType, String doctorLastName, String patientLastName, LocalDateTime visitDate) {
         return new Specification<Visit>() {
             @Override
             public Predicate toPredicate(Root<Visit> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
@@ -90,11 +76,10 @@ public class VisitService {
         visit.setDurationInMinutes(visitDto.getDurationInMinutes());
 
         visitRepository.save(visit);
-//        visitRepository.save(visit);
     }
 
 
-    public List<VisitDto> search(String visitType, String patientLastName, String doctorLastName, LocalDate visitDate) {
+    public List<VisitDto> search(String visitType, String patientLastName, String doctorLastName, LocalDateTime visitDate) {
         var result = visitRepository.findAll(filterByParams(visitType, doctorLastName, patientLastName, visitDate));
         return result.stream().map(VisitDto::fromEntitty).toList();
     }

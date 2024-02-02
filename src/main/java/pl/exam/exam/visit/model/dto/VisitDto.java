@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 @Builder
 public class VisitDto {
 
-    private int id;
+    private Integer id;
     private LocalDateTime date;
     private String formattedVisitDate;
     private int durationInMinutes;
@@ -29,7 +29,7 @@ public class VisitDto {
         return VisitDto.builder()
                 .id(visit.getId())
                 .date(visit.getVisitDate())
-                .formattedVisitDate(visit.getVisitDate().format(dateTimeFormatter))
+                .formattedVisitDate(visit.getVisitDate() != null ? visit.getVisitDate().format(dateTimeFormatter) : null)
                 .durationInMinutes(visit.getDurationInMinutes())
                 .patient(visit.getPatient())
                 .doctor(visit.getDoctor())
