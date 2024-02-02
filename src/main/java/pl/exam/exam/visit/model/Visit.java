@@ -7,6 +7,7 @@ import pl.exam.exam.doctor.model.Doctor;
 import pl.exam.exam.patient.model.Patient;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -20,7 +21,7 @@ public class Visit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "doctor_id")
@@ -31,8 +32,8 @@ public class Visit {
     private Patient patient;
 
     private String visitType;
-    // TODO: 30/01/2024 zamienic LocalDate na LocalDateTime - w insertSQL rowniez 
-    private LocalDate visitDate;
+
+    private LocalDateTime visitDate;
 
     private int durationInMinutes;
 }

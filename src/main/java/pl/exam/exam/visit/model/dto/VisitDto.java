@@ -8,22 +8,28 @@ import pl.exam.exam.patient.model.Patient;
 import pl.exam.exam.visit.model.Visit;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Builder
 public class VisitDto {
 
     private int id;
-    private LocalDate date;
+    private LocalDateTime date;
+    private String formattedVisitDate;
     private int durationInMinutes;
     private Doctor doctor;
     private Patient patient;
     private String visitType;
 
     public static VisitDto fromEntitty(Visit visit) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
         return VisitDto.builder()
                 .id(visit.getId())
                 .date(visit.getVisitDate())
+                .formattedVisitDate(visit.getVisitDate().format(dateTimeFormatter))
                 .durationInMinutes(visit.getDurationInMinutes())
                 .patient(visit.getPatient())
                 .doctor(visit.getDoctor())
