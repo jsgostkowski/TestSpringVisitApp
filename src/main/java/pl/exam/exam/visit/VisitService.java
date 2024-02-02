@@ -14,6 +14,7 @@ import pl.exam.exam.visit.model.Visit;
 import pl.exam.exam.visit.model.dto.VisitDto;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,22 +24,8 @@ public class VisitService {
 
     private final VisitRepository visitRepository;
 
-    private static Specification<Visit> getSpecification(String visitType, String doctorLastName, String patientLastName,
-                                                         String patientFirstName) {
-        return (((root, query, criteriaBuilder) -> {
-            List<Predicate> predicates = new ArrayList<>();
 
-            if (visitType != null) {
-                predicates.add(criteriaBuilder.equal(root.get("visitType"), visitType));
-            }
-            if (doctorLastName != null) {
-                predicates.add(criteriaBuilder.equal(root.get("doctorLastName"), doctorLastName));
-            }
-            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
-        }));
-    }
-
-    public static Specification<Visit> filterByParams(String visitType, String doctorLastName, String patientLastName, LocalDate visitDate) {
+    public static Specification<Visit> filterByParams(String visitType, String doctorLastName, String patientLastName, LocalDateTime visitDate, int durationTime) {
         return new Specification<Visit>() {
             @Override
             public Predicate toPredicate(Root<Visit> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
@@ -61,6 +48,10 @@ public class VisitService {
                     Predicate p = criteriaBuilder.equal(root.get("visitDate"), visitDate);
                     predicats.add(p);
                 }
+                if (durationTime > 0) {
+                    Predicate p = criteriaBuilder.equal(root.get("durationInMinutes"), durationTime);
+                    predicats.add(p);
+                }
 
                 if (predicats.isEmpty()) {
                     return query.getRestriction();
@@ -78,8 +69,8 @@ public class VisitService {
     }
 
 
-    public List<VisitDto> search(String visitType, String patientLastName, String doctorLastName, LocalDate visitDate) {
-        var result = visitRepository.findAll(filterByParams(visitType, doctorLastName, patientLastName, visitDate));
+    public List<VisitDto> search(String visitType, String patientLastName, String doctorLastName, LocalDateTime visitDate, int durationTime) {
+        var result = visitRepository.findAll(filterByParams(visitType, doctorLastName, patientLastName, visitDate, durationTime));
         return result.stream().map(VisitDto::fromEntitty).toList();
     }
 }

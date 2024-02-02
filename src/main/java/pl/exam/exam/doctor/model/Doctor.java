@@ -23,4 +23,6 @@ public class Doctor {
     @Enumerated(EnumType.STRING)
     private Specialization specialization;
 
+    @Version
+    private Integer version;
 }
