@@ -53,7 +53,8 @@ public class VisitController {
     }
 
     @PostMapping("/create")
-    public String create(Visit visit) {
+    public String create(VisitDto visit, Model model) {
+        model.addAttribute("visit", visit);
         visitService.create(visit);
         return "redirect:/visits";
     }

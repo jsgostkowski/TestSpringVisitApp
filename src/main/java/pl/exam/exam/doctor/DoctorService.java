@@ -1,7 +1,6 @@
 package pl.exam.exam.doctor;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.exam.exam.doctor.model.Doctor;
 
@@ -16,4 +15,5 @@ public class DoctorService {
     public List<Doctor> findAll(){
         return doctorRepository.findAll();
     }
+
 }

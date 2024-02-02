@@ -21,7 +21,7 @@ public class Visit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "doctor_id")
@@ -32,6 +32,10 @@ public class Visit {
     private Patient patient;
 
     private String visitType;
+
     private LocalDateTime visitDate;
+
+
+
     private int durationInMinutes;
 }

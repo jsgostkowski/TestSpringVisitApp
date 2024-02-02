@@ -10,6 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import pl.exam.exam.common.VisitSortBy;
+import pl.exam.exam.doctor.DoctorRepository;
+import pl.exam.exam.doctor.model.Doctor;
+import pl.exam.exam.patient.PatientRepository;
+import pl.exam.exam.patient.model.Patient;
 import pl.exam.exam.visit.model.Visit;
 import pl.exam.exam.visit.model.dto.VisitDto;
 
@@ -23,6 +27,8 @@ import java.util.List;
 public class VisitService {
 
     private final VisitRepository visitRepository;
+    private final DoctorRepository doctorRepository;
+    private final PatientRepository patientRepository;
 
 
     public static Specification<Visit> filterByParams(String visitType, String doctorLastName, String patientLastName, LocalDateTime visitDate, int durationTime) {
@@ -64,8 +70,18 @@ public class VisitService {
 
 
     @Transactional
-    public void create(Visit visit) {
+    public void create(VisitDto visitDto) {
+        Doctor doctor = doctorRepository.findWithLockingById(visitDto.getDoctor().getId()).orElseThrow(() -> new IllegalArgumentException("COS Z DOKTOREM JEST NIE TAK"));
+        Patient patient = patientRepository.findWithLockingById(visitDto.getPatient().getId()).orElseThrow(() -> new IllegalArgumentException("COS Z PACJENTEM JEST NIE TAK"));
+        Visit visit = new Visit();
+        visit.setVisitDate(visitDto.getDate());
+        visit.setVisitType(visitDto.getVisitType());
+        visit.setDoctor(doctor);
+        visit.setPatient(patient);
+        visit.setDurationInMinutes(visitDto.getDurationInMinutes());
+
         visitRepository.save(visit);
+//        visitRepository.save(visit);
     }
 
 
