@@ -35,5 +35,7 @@ public class Visit {
 
     private LocalDateTime visitDate;
 
+
+
     private int durationInMinutes;
 }
