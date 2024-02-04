@@ -34,8 +34,9 @@
 
     <div>
         <label>Visit date</label>
-        <input type="datetime-local" name="term" th:value="${visit != null ? visit.visitDate : ''}" th:min="${today}" required/>
+        <input type="datetime-local" name="visitDate" th:value="${visit != null ? visit.visitDate : ''}" th:min="${today}" required/>
     </div>
+
 
 
     <div>

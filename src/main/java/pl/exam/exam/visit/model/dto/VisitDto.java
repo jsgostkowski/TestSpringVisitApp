@@ -13,25 +13,24 @@ import java.time.format.DateTimeFormatter;
 public class VisitDto {
 
     private Integer id;
-    private LocalDateTime date;
+    private LocalDateTime visitDate;
     private String formattedVisitDate;
     private int durationInMinutes;
     private Doctor doctor;
     private Patient patient;
     private String visitType;
 
-    public static VisitDto fromEntitty(Visit visit) {
+    public static VisitDto fromEntity(Visit visit) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
         return VisitDto.builder()
                 .id(visit.getId())
-                .date(visit.getVisitDate())
+                .visitDate(visit.getVisitDate())
                 .formattedVisitDate(visit.getVisitDate() != null ? visit.getVisitDate().format(dateTimeFormatter) : null)
                 .durationInMinutes(visit.getDurationInMinutes())
                 .patient(visit.getPatient())
                 .doctor(visit.getDoctor())
                 .visitType(visit.getVisitType())
-                .date(visit.getVisitDate())
                 .build();
     }
 }

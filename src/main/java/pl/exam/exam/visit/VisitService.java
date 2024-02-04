@@ -69,7 +69,7 @@ public class VisitService {
         Doctor doctor = doctorRepository.findWithLockingById(visitDto.getDoctor().getId()).orElseThrow(() -> new IllegalArgumentException("COS Z DOKTOREM JEST NIE TAK"));
         Patient patient = patientRepository.findWithLockingById(visitDto.getPatient().getId()).orElseThrow(() -> new IllegalArgumentException("COS Z PACJENTEM JEST NIE TAK"));
         Visit visit = new Visit();
-        visit.setVisitDate(visitDto.getDate());
+        visit.setVisitDate(visitDto.getVisitDate());
         visit.setVisitType(visitDto.getVisitType());
         visit.setDoctor(doctor);
         visit.setPatient(patient);
@@ -80,6 +80,6 @@ public class VisitService {
 
     public List<VisitDto> search(String visitType, String patientLastName, String doctorLastName, LocalDateTime visitDate) {
         var result = visitRepository.findAll(filterByParams(visitType, doctorLastName, patientLastName, visitDate));
-        return result.stream().map(VisitDto::fromEntitty).toList();
+        return result.stream().map(VisitDto::fromEntity).toList();
     }
 }

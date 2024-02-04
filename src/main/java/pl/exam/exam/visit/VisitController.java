@@ -57,7 +57,6 @@ public class VisitController {
     @PostMapping("/create")
     public String create(VisitDto visit, Model model) {
         model.addAttribute("visit", visit);
-        //   model.addAttribute("visitDate", LocalDateTime.now().format(DateTimeFormatter.ISO_DATE));
         visitService.create(visit);
         return "redirect:/visits";
     }
