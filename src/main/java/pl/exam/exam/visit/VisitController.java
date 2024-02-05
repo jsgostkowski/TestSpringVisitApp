@@ -36,7 +36,7 @@ public class VisitController {
 
         List<VisitDto> visits = visitService.search(visitCriteria.getVisitType(),
                 visitCriteria.getPatientLastName(),
-                visitCriteria.getDoctorLastName(), visitCriteria.getVisitDate());
+                visitCriteria.getDoctorLastName(), visitCriteria.getVisitDate(), visitCriteria.getStartDate(), visitCriteria.getEndDate());
 
         model.addAttribute("visits", visits);
         model.addAttribute("visitTypes", VisitType.values());

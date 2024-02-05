@@ -5,6 +5,8 @@ import lombok.Getter;
 import pl.exam.exam.doctor.model.Doctor;
 import pl.exam.exam.patient.model.Patient;
 import pl.exam.exam.visit.model.Visit;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
