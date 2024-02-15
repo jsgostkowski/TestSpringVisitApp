@@ -21,4 +21,5 @@ public class VisitCriteria {
     private LocalDateTime endDate;
     private String sortBy;
 
+
 }
