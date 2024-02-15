@@ -32,11 +32,16 @@ public class VisitController {
 
 
     @GetMapping
-    public String getAll(VisitCriteria visitCriteria, Model model) {
+    public String getAll(VisitCriteria visitCriteria, @RequestParam(name = "sort", defaultValue = "asc") String sort, Model model) {
 
         List<VisitDto> visits = visitService.search(visitCriteria.getVisitType(),
                 visitCriteria.getPatientLastName(),
-                visitCriteria.getDoctorLastName(), visitCriteria.getVisitDate());
+                visitCriteria.getDoctorLastName(),
+                visitCriteria.getVisitDate(),
+                visitCriteria.getStartDate(),
+                visitCriteria.getEndDate(),
+                sort
+        );
 
         model.addAttribute("visits", visits);
         model.addAttribute("visitTypes", VisitType.values());
@@ -57,7 +62,6 @@ public class VisitController {
     @PostMapping("/create")
     public String create(VisitDto visit, Model model) {
         model.addAttribute("visit", visit);
-        //   model.addAttribute("visitDate", LocalDateTime.now().format(DateTimeFormatter.ISO_DATE));
         visitService.create(visit);
         return "redirect:/visits";
     }

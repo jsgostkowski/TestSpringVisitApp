@@ -7,6 +7,7 @@ import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import pl.exam.exam.common.VisitSortBy;
@@ -19,6 +20,7 @@ import pl.exam.exam.visit.model.dto.VisitDto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +32,7 @@ public class VisitService {
     private final DoctorRepository doctorRepository;
     private final PatientRepository patientRepository;
 
-    public static Specification<Visit> filterByParams(String visitType, String doctorLastName, String patientLastName, LocalDateTime visitDate) {
+    public static Specification<Visit> filterByParams(String visitType, String doctorLastName, String patientLastName, LocalDateTime visitDate, LocalDateTime startDate, LocalDateTime endDate) {
         return new Specification<Visit>() {
             @Override
             public Predicate toPredicate(Root<Visit> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
@@ -52,6 +54,12 @@ public class VisitService {
                 if (visitDate != null) {
                     Predicate p = criteriaBuilder.equal(root.get("visitDate"), visitDate);
                     predicats.add(p);
+                }
+                if (startDate != null && endDate != null) {
+                    Predicate start = criteriaBuilder.greaterThan(root.get("visitDate"), startDate);
+                    Predicate end = criteriaBuilder.lessThan(root.get("visitDate"), endDate);
+                    Predicate isContained = criteriaBuilder.and(start, end);
+                    predicats.add(isContained);
                 }
 
                 if (predicats.isEmpty()) {
@@ -75,11 +83,28 @@ public class VisitService {
         visit.setPatient(patient);
         visit.setDurationInMinutes(visitDto.getDurationInMinutes());
         visitRepository.save(visit);
+
     }
 
 
-    public List<VisitDto> search(String visitType, String patientLastName, String doctorLastName, LocalDateTime visitDate) {
-        var result = visitRepository.findAll(filterByParams(visitType, doctorLastName, patientLastName, visitDate));
+    public List<VisitDto> search(String visitType, String patientLastName, String doctorLastName, LocalDateTime visitDate, LocalDateTime startDate, LocalDateTime endDate, String sortBy) {
+
+        Specification<Visit> spec = filterByParams(visitType, doctorLastName, patientLastName, visitDate, startDate, endDate);
+
+        Sort sort;
+        if ("doctorLastName".equals(sortBy)) {
+            sort = Sort.by("doctor.lastName");
+        } else if ("patientLastName".equals(sortBy)) {
+            sort = Sort.by("patient.lastName");
+        } else if ("visitDate".equals(sortBy)) {
+            sort = Sort.by("visitDate");
+        } else if ("durationInMinutes".equals(sortBy)) {
+            sort = Sort.by("durationInMinutes");
+        } else {
+            sort = Sort.by("visitDate");
+        }
+        // var result = visitRepository.findAll(filterByParams(visitType, doctorLastName, patientLastName, visitDate, startDate, endDate), sort);
+        var result = visitRepository.findAll(spec, sort);
         return result.stream().map(VisitDto::fromEntitty).toList();
     }
 }
