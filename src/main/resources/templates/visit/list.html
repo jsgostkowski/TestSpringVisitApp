@@ -28,10 +28,14 @@
     <label for="durationTime">Duration Time:</label>
     <input type="number" name="durationTime" id="durationTime">
 
-    <select name="sortBy" id="sortBy">
-        <option value="" disabled selected>Sort By</option>
-        <option th:each="type : ${visitsSortBy}" th:value="${type}" th:text="${type}"></option>
+    <select name="sort" id="sort">
+        <option value="" disabled selected>Choose Sorting Option</option>
+        <option value="doctorLastName">Doctor Last Name</option>
+        <option value="patientLastName">Patient Last Name</option>
+        <option value="visitDate">Visit Date</option>
+        <option value="durationInMinutes">Duration in Minutes</option>
     </select>
+
 
     <button type="submit">Search</button>
 </form>

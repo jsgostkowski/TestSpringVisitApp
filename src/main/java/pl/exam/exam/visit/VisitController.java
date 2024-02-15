@@ -32,11 +32,16 @@ public class VisitController {
 
 
     @GetMapping
-    public String getAll(VisitCriteria visitCriteria, Model model) {
+    public String getAll(VisitCriteria visitCriteria, @RequestParam(name = "sort", defaultValue = "asc") String sort, Model model) {
 
         List<VisitDto> visits = visitService.search(visitCriteria.getVisitType(),
                 visitCriteria.getPatientLastName(),
-                visitCriteria.getDoctorLastName(), visitCriteria.getVisitDate(), visitCriteria.getStartDate(), visitCriteria.getEndDate());
+                visitCriteria.getDoctorLastName(),
+                visitCriteria.getVisitDate(),
+                visitCriteria.getStartDate(),
+                visitCriteria.getEndDate(),
+                sort
+        );
 
         model.addAttribute("visits", visits);
         model.addAttribute("visitTypes", VisitType.values());

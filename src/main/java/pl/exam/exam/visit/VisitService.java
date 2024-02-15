@@ -7,6 +7,7 @@ import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import pl.exam.exam.common.VisitSortBy;
@@ -86,8 +87,25 @@ public class VisitService {
     }
 
 
-    public List<VisitDto> search(String visitType, String patientLastName, String doctorLastName, LocalDateTime visitDate, LocalDateTime startDate, LocalDateTime endDate) {
-        var result = visitRepository.findAll(filterByParams(visitType, doctorLastName, patientLastName, visitDate, startDate, endDate));
-        return result.stream().map(VisitDto::fromEntity).toList();
+    public List<VisitDto> search(String visitType, String patientLastName, String doctorLastName, LocalDateTime visitDate, LocalDateTime startDate, LocalDateTime endDate, String sortBy) {
+
+        Specification<Visit> spec = filterByParams(visitType, doctorLastName, patientLastName, visitDate, startDate, endDate);
+
+        Sort sort;
+        if ("doctorLastName".equals(sortBy)) {
+            sort = Sort.by("doctor.lastName");
+        } else if ("patientLastName".equals(sortBy)) {
+            sort = Sort.by("patient.lastName");
+        } else if ("visitDate".equals(sortBy)) {
+            sort = Sort.by("visitDate");
+        } else if ("durationInMinutes".equals(sortBy)) {
+            sort = Sort.by("durationInMinutes");
+        } else {
+            sort = Sort.by("visitDate");
+        }
+        // var result = visitRepository.findAll(filterByParams(visitType, doctorLastName, patientLastName, visitDate, startDate, endDate), sort);
+        var result = visitRepository.findAll(spec, sort);
+        return result.stream().map(VisitDto::fromEntitty).toList();
+
     }
 }

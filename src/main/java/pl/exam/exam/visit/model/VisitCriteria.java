@@ -19,5 +19,7 @@ public class VisitCriteria {
     private LocalDateTime startDate;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDateTime endDate;
+    private String sortBy;
+
 
 }
